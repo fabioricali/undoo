@@ -141,6 +141,3 @@ class Undoo {
 }
 
 module.exports = Undoo;
-
-if (typeof window !== 'undefined')
-    window.Undoo = Undoo;
