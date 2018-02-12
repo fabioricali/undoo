@@ -47,6 +47,21 @@ myHistory.redo((item)=>{
 
 ```
 
+## Use provider
+
+```javascript
+const Undoo = require('undoo');
+
+const myHistory = new Undoo({
+    provider: () => document.getElementById('myTextArea').value
+});
+
+myHistory.save();
+
+});
+
+```
+
 ## API
 
 {{>main}}
