@@ -24,10 +24,41 @@ npm install undoo --save
 ```
 
 ## Example
+
 ```javascript
 const Undoo = require('undoo');
 
-const myHistory = new Undoo(myObject);
+const myHistory = new Undoo();
+
+myHistory.save('one');
+myHistory.save('two');
+myHistory.save('three');
+myHistory.save('four');
+
+myHistory.undo((item)=>{
+    console.log(item); //=> three
+});
+
+myHistory.current(); //=> three
+
+myHistory.redo((item)=>{
+    console.log(item); //=> four
+});
+
+```
+
+## Use provider
+
+```javascript
+const Undoo = require('undoo');
+
+const myHistory = new Undoo({
+    provider: () => document.getElementById('myTextArea').value
+});
+
+myHistory.save();
+
+});
 
 ```
 

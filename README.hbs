@@ -58,8 +58,6 @@ const myHistory = new Undoo({
 
 myHistory.save();
 
-});
-
 ```
 
 ## API
