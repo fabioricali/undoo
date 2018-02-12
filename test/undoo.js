@@ -40,7 +40,6 @@ describe('Undoo', function () {
         myUndo.undo();
         myUndo.save('ciao');
 
-
         be.err.equal('ciao', myUndo.current());
         console.log(myUndo._history);
         be.err(done).equal(['hello', 'ciao'], myUndo._history);
@@ -54,7 +53,6 @@ describe('Undoo', function () {
         myUndo.undo();
         myUndo.redo();
         myUndo.save('ciao');
-
 
         be.err.equal('ciao', myUndo.current());
         console.log(myUndo._history);
