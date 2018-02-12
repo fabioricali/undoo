@@ -1,2 +1,2 @@
 # undoo
-Undo and redo manager
+Undo/redo manager
