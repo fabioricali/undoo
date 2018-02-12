@@ -1,3 +1,4 @@
+.idea/
 # Logs
 logs
 *.log
@@ -45,7 +46,7 @@ typings/
 # Optional eslint cache
 .eslintcache
 
-# Optional REPL history
+# Optional REPL _history
 .node_repl_history
 
 # Output of 'npm pack'
