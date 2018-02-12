@@ -5,9 +5,15 @@ const extend = require('defaulty');
  */
 class Undoo {
 
+    /**
+     * Create instance
+     * @param [opts] {Object} configuration object
+     * @param [opts.provider=null] {Function} optional function called on save that returns new state for history
+     * @param [opts.maxLength=20] {number} max length history
+     */
     constructor(opts) {
         this.opts = extend.copy(opts, {
-            source: null,
+            provider: null,
             maxLength: 20
         });
 
@@ -45,15 +51,20 @@ class Undoo {
     }
 
     /**
-     * Save _history
-     * @param item
+     * Save history
+     * @param [item] {*}
      * @returns {Undoo}
      */
     save(item) {
 
-        if (this._position < this.count()) {
+        if (typeof item === 'undefined' && typeof this.opts.provider === 'function')
+            item = this.opts.provider();
+
+        if (typeof item === 'undefined')
+            return this;
+
+        if (this._position < this.count())
             this._history = this._history.slice(0, this._position);
-        }
 
         this._history.push(item);
         this._position = this.count();
@@ -64,7 +75,7 @@ class Undoo {
     }
 
     /**
-     * Clear _history
+     * Clear history
      * @returns {Undoo}
      */
     clear() {
@@ -113,7 +124,7 @@ class Undoo {
     }
 
     /**
-     * Count _history items
+     * Count history items
      * @returns {number}
      */
     count() {
