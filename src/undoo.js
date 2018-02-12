@@ -17,15 +17,29 @@ class Undoo {
         };
     }
 
+    /**
+     * @ignore
+     * @private
+     */
     _checkExceeded() {
         if (this.count() > this.opts.maxLength)
             this._history = this._history.slice(1, this.count());
     }
 
+    /**
+     * @ignore
+     * @returns {boolean}
+     * @private
+     */
     _canUndo() {
         return this._position > 0;
     }
 
+    /**
+     * @ignore
+     * @returns {boolean}
+     * @private
+     */
     _canRedo() {
         return this._position < this.count();
     }
@@ -43,10 +57,8 @@ class Undoo {
 
         this._history.push(item);
         this._position = this.count();
-
         this._checkExceeded();
-
-        this._onUpdate.call(null, this.current(), 'add');
+        this._onUpdate.call(null, this.current(), 'save');
 
         return this;
     }
@@ -58,6 +70,7 @@ class Undoo {
     clear() {
         this._history = [];
         this._position = 0;
+        this._onUpdate.call(null, null, 'clear');
         return this;
     }
 
@@ -107,6 +120,10 @@ class Undoo {
         return this._history.length;
     }
 
+    /**
+     * Triggered when history is updated
+     * @param callback
+     */
     onUpdate(callback) {
         this._onUpdate = callback;
     }
