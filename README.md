@@ -31,9 +31,9 @@ const Undoo = require('undoo');
 const myHistory = new Undoo();
 
 myHistory
-    .save('one');
-    .save('two');
-    .save('three');
+    .save('one')
+    .save('two')
+    .save('three')
     .save('four');
 
 myHistory.undo((item)=>{
