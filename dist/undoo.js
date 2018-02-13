@@ -1,4 +1,4 @@
-// [AIV]  Undoo Build version: 0.0.1  
+// [AIV]  Undoo Build version: 0.1.0  
  (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
