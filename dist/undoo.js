@@ -95,6 +95,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var extend = __webpack_require__(2);
+var isEqual = __webpack_require__(4);
 
 /**
  * @class
@@ -169,13 +170,14 @@ var Undoo = function () {
 
             if (typeof item === 'undefined' && typeof this.opts.provider === 'function') item = this.opts.provider();
 
-            if (typeof item === 'undefined') return this;
+            if (isEqual(item, this.current())) return this;
 
             if (this._position < this.count()) this._history = this._history.slice(0, this._position);
 
-            this._history.push(item);
-            this._position = this.count();
+            if (typeof item !== 'undefined') this._history.push(item);
+
             this._checkExceeded();
+            this._position = this.count();
             this._onUpdate.call(null, this.current(), 'save');
 
             return this;
@@ -196,8 +198,14 @@ var Undoo = function () {
         }
 
         /**
+         * undo callback
+         * @callback Undoo~undoCallback
+         * @param item {*} current history item
+         */
+
+        /**
          * Undo
-         * @param callback
+         * @param callback {Undoo~undoCallback} callback function
          * @returns {Undoo}
          */
 
@@ -213,8 +221,14 @@ var Undoo = function () {
         }
 
         /**
+         * redo callback
+         * @callback Undoo~redoCallback
+         * @param item {*} current history item
+         */
+
+        /**
          * Redo
-         * @param callback
+         * @param callback {Undoo~redoCallback} callback function
          * @returns {Undoo}
          */
 
@@ -252,14 +266,23 @@ var Undoo = function () {
         }
 
         /**
+         * onUpdate callback
+         * @callback Undoo~updateCallback
+         * @param item {*} current history item
+         * @param action {string} action that has called update event. Can be: redo, undo, save, clear
+         */
+
+        /**
          * Triggered when history is updated
-         * @param callback
+         * @param callback {Undoo~updateCallback} callback function
+         * @returns {Undoo}
          */
 
     }, {
         key: 'onUpdate',
         value: function onUpdate(callback) {
             this._onUpdate = callback;
+            return this;
         }
     }]);
 
@@ -552,6 +575,55 @@ module.exports = function (module) {
 		module.webpackPolyfill = 1;
 	}
 	return module;
+};
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+module.exports = function equal(a, b) {
+  if (a === b) return true;
+
+  var arrA = Array.isArray(a),
+      arrB = Array.isArray(b),
+      i;
+
+  if (arrA && arrB) {
+    if (a.length != b.length) return false;
+    for (i = 0; i < a.length; i++) {
+      if (!equal(a[i], b[i])) return false;
+    }return true;
+  }
+
+  if (arrA != arrB) return false;
+
+  if (a && b && (typeof a === 'undefined' ? 'undefined' : _typeof(a)) === 'object' && (typeof b === 'undefined' ? 'undefined' : _typeof(b)) === 'object') {
+    var keys = Object.keys(a);
+    if (keys.length !== Object.keys(b).length) return false;
+
+    var dateA = a instanceof Date,
+        dateB = b instanceof Date;
+    if (dateA && dateB) return a.getTime() == b.getTime();
+    if (dateA != dateB) return false;
+
+    var regexpA = a instanceof RegExp,
+        regexpB = b instanceof RegExp;
+    if (regexpA && regexpB) return a.toString() == b.toString();
+    if (regexpA != regexpB) return false;
+
+    for (i = 0; i < keys.length; i++) {
+      if (!Object.prototype.hasOwnProperty.call(b, keys[i])) return false;
+    }for (i = 0; i < keys.length; i++) {
+      if (!equal(a[keys[i]], b[keys[i]])) return false;
+    }return true;
+  }
+
+  return false;
 };
 
 /***/ })
