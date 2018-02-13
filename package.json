@@ -43,6 +43,7 @@
         "webpack-auto-inject-version": "^1.0.0"
     },
     "dependencies": {
-        "defaulty": "^2.1.0"
+        "defaulty": "^2.1.0",
+        "fast-deep-equal": "^1.0.0"
     }
 }

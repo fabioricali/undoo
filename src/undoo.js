@@ -1,4 +1,5 @@
 const extend = require('defaulty');
+const isEqual = require('fast-deep-equal');
 
 /**
  * @class
@@ -60,7 +61,7 @@ class Undoo {
         if (typeof item === 'undefined' && typeof this.opts.provider === 'function')
             item = this.opts.provider();
 
-        if (typeof item === 'undefined')
+        if (typeof item === 'undefined' || isEqual(item, this.current()))
             return this;
 
         if (this._position < this.count())
