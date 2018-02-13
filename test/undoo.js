@@ -83,4 +83,60 @@ describe('Undoo', function () {
         be.err(done).equal(['hello'], myUndo._history);
     });
 
+    it('provider should be return hello', function (done) {
+        const myUndo = new Undoo({
+            provider: ()=> 'hello'
+        });
+
+        myUndo.save();
+
+        console.log(myUndo._history);
+        be.err.equal('hello', myUndo.current());
+        be.err(done).equal([ 'hello' ], myUndo._history);
+    });
+
+    it('2 undo and empty save should be return hello', function (done) {
+        const myUndo = new Undoo();
+
+        myUndo.save('hello');
+        myUndo.save('world');
+        myUndo.save('ciao');
+        myUndo.undo();
+        myUndo.undo();
+        myUndo.save();
+        console.log(myUndo._history);
+        be.err.equal('hello', myUndo.current());
+        be.err(done).equal([ 'hello'], myUndo._history);
+    });
+
+    it('2 undo and empty save should be return bau', function (done) {
+        const myUndo = new Undoo();
+
+        myUndo.save('hello');
+        myUndo.save('world');
+        myUndo.save('ciao');
+        myUndo.undo();
+        myUndo.undo();
+        myUndo.save();
+        myUndo.save('bau');
+        console.log(myUndo._history);
+        be.err.equal('bau', myUndo.current());
+        be.err(done).equal(['hello', 'bau'], myUndo._history);
+    });
+
+    it('maxLength set to 5 should be return foo', function (done) {
+        const myUndo = new Undoo({
+            maxLength: 5
+        });
+
+        myUndo.save('hello');
+        myUndo.save('world');
+        myUndo.save('ciao');
+        myUndo.save('miao');
+        myUndo.save('bau');
+        myUndo.save('foo');
+        console.log(myUndo._history);
+        be.err.equal('foo', myUndo.current());
+        be.err(done).equal([ 'world', 'ciao', 'miao', 'bau', 'foo' ], myUndo._history);
+    });
 });
