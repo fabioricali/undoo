@@ -30,10 +30,11 @@ const Undoo = require('undoo');
 
 const myHistory = new Undoo();
 
-myHistory.save('one');
-myHistory.save('two');
-myHistory.save('three');
-myHistory.save('four');
+myHistory
+    .save('one');
+    .save('two');
+    .save('three');
+    .save('four');
 
 myHistory.undo((item)=>{
     console.log(item); //=> three
