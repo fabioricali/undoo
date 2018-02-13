@@ -72,4 +72,15 @@ describe('Undoo', function () {
         be.err(done).equal([ 'hello', 'world', 'ciao' ], myUndo._history);
     });
 
+    it('save 3 times the same thing, should be every 1 item', function (done) {
+        const myUndo = new Undoo();
+
+        myUndo.save('hello');
+        myUndo.save('hello');
+        myUndo.save('hello');
+        console.log(myUndo._history);
+        be.err.equal('hello', myUndo.current());
+        be.err(done).equal(['hello'], myUndo._history);
+    });
+
 });
