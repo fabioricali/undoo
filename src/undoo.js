@@ -67,8 +67,8 @@ class Undoo {
             this._history = this._history.slice(0, this._position);
 
         this._history.push(item);
-        this._position = this.count();
         this._checkExceeded();
+        this._position = this.count();
         this._onUpdate.call(null, this.current(), 'save');
 
         return this;
