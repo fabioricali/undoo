@@ -61,13 +61,15 @@ class Undoo {
         if (typeof item === 'undefined' && typeof this.opts.provider === 'function')
             item = this.opts.provider();
 
-        if (typeof item === 'undefined' || isEqual(item, this.current()))
+        if (isEqual(item, this.current()))
             return this;
 
         if (this._position < this.count())
             this._history = this._history.slice(0, this._position);
 
-        this._history.push(item);
+        if (typeof item !== 'undefined')
+            this._history.push(item);
+
         this._checkExceeded();
         this._position = this.count();
         this._onUpdate.call(null, this.current(), 'save');
