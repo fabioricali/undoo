@@ -89,6 +89,12 @@ class Undoo {
     }
 
     /**
+     * undo callback
+     * @callback Undoo~undoCallback
+     * @param item {*} current history item
+     */
+
+    /**
      * Undo
      * @param callback {Undoo~undoCallback} callback function
      * @returns {Undoo}
@@ -104,8 +110,8 @@ class Undoo {
     }
 
     /**
-     * undo callback
-     * @callback Undoo~undoCallback
+     * redo callback
+     * @callback Undoo~redoCallback
      * @param item {*} current history item
      */
 
@@ -125,12 +131,6 @@ class Undoo {
     }
 
     /**
-     * redo callback
-     * @callback Undoo~redoCallback
-     * @param item {*} current history item
-     */
-
-    /**
      * Get current item in history
      * @returns {*}
      */
@@ -147,19 +147,22 @@ class Undoo {
     }
 
     /**
-     * Triggered when history is updated
-     * @param callback {Undoo~updateCallback} callback function
-     */
-    onUpdate(callback) {
-        this._onUpdate = callback;
-    }
-
-    /**
      * onUpdate callback
      * @callback Undoo~updateCallback
      * @param item {*} current history item
      * @param action {string} action that has called update event. Can be: redo, undo, save, clear
      */
+
+    /**
+     * Triggered when history is updated
+     * @param callback {Undoo~updateCallback} callback function
+     * @returns {Undoo}
+     */
+    onUpdate(callback) {
+        this._onUpdate = callback;
+        return this;
+    }
+
 }
 
 module.exports = Undoo;
