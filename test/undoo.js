@@ -135,7 +135,7 @@ describe('Undoo', function () {
         myUndo.save('miao');
         myUndo.save('bau');
         myUndo.save('foo');
-        console.log(myUndo._history);
+        console.log(myUndo);
         be.err.equal('foo', myUndo.current());
         be.err(done).equal([ 'world', 'ciao', 'miao', 'bau', 'foo' ], myUndo._history);
     });

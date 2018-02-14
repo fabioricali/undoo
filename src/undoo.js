@@ -16,20 +16,16 @@ class Undoo {
 
         Object.defineProperties(this, {
             _opts: {
-                writable: true,
-                enumerable: false
+                writable: true
             },
             _history: {
-                writable: true,
-                enumerable: false
+                writable: true
             },
             _position: {
-                writable: true,
-                enumerable: false
+                writable: true
             },
             _onUpdate: {
                 writable: true,
-                enumerable: false,
                 value: ()=>{}
             }
         });
@@ -88,6 +84,7 @@ class Undoo {
             throw new TypeError('Items must be an array');
         this._initiliaze();
         this._history = history;
+        this._position = this.count();
         return this;
     }
 
