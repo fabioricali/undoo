@@ -1,4 +1,4 @@
-// [AIV]  Undoo Build version: 0.1.0  
+// [AIV]  Undoo Build version: 0.2.0  
  (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -112,14 +112,28 @@ var Undoo = function () {
     function Undoo(opts) {
         _classCallCheck(this, Undoo);
 
+        Object.defineProperties(this, {
+            _opts: {
+                writable: true
+            },
+            _history: {
+                writable: true
+            },
+            _position: {
+                writable: true
+            },
+            _onUpdate: {
+                writable: true,
+                value: function value() {}
+            }
+        });
+
         this._opts = extend.copy(opts, {
             provider: null,
             maxLength: 20
         });
 
-        this._history = [];
-        this._position = 0;
-        this._onUpdate = function () {};
+        this._initiliaze();
     }
 
     /**
@@ -129,6 +143,18 @@ var Undoo = function () {
 
 
     _createClass(Undoo, [{
+        key: '_initiliaze',
+        value: function _initiliaze() {
+            this._history = [];
+            this._position = 0;
+        }
+
+        /**
+         * @ignore
+         * @private
+         */
+
+    }, {
         key: '_checkExceeded',
         value: function _checkExceeded() {
             if (this.count() > this._opts.maxLength) this._history = this._history.slice(1, this.count());
@@ -156,6 +182,35 @@ var Undoo = function () {
         key: '_canRedo',
         value: function _canRedo() {
             return this._position < this.count();
+        }
+
+        /**
+         * Import external history
+         * @param history {Array}
+         * @returns {Undoo}
+         */
+
+    }, {
+        key: 'import',
+        value: function _import() {
+            var history = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+            if (!Array.isArray(history)) throw new TypeError('Items must be an array');
+            this._initiliaze();
+            this._history = history;
+            this._position = this.count();
+            return this;
+        }
+
+        /**
+         * Get history
+         * @returns {Array}
+         */
+
+    }, {
+        key: 'history',
+        value: function history() {
+            return this._history;
         }
 
         /**
@@ -191,8 +246,7 @@ var Undoo = function () {
     }, {
         key: 'clear',
         value: function clear() {
-            this._history = [];
-            this._position = 0;
+            this._initiliaze();
             this._onUpdate.call(null, null, 'clear');
             return this;
         }
@@ -205,7 +259,7 @@ var Undoo = function () {
 
         /**
          * Undo
-         * @param callback {Undoo~undoCallback} callback function
+         * @param [callback] {Undoo~undoCallback} callback function
          * @returns {Undoo}
          */
 
@@ -228,7 +282,7 @@ var Undoo = function () {
 
         /**
          * Redo
-         * @param callback {Undoo~redoCallback} callback function
+         * @param [callback] {Undoo~redoCallback} callback function
          * @returns {Undoo}
          */
 

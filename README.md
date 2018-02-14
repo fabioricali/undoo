@@ -71,10 +71,12 @@ myHistory.save();
 * [Undoo](#Undoo)
     * [new Undoo([opts])](#new_Undoo_new)
     * _instance_
+        * [.import(history)](#Undoo+import) ⇒ [<code>Undoo</code>](#Undoo)
+        * [.history()](#Undoo+history) ⇒ <code>Array</code>
         * [.save([item])](#Undoo+save) ⇒ [<code>Undoo</code>](#Undoo)
         * [.clear()](#Undoo+clear) ⇒ [<code>Undoo</code>](#Undoo)
-        * [.undo(callback)](#Undoo+undo) ⇒ [<code>Undoo</code>](#Undoo)
-        * [.redo(callback)](#Undoo+redo) ⇒ [<code>Undoo</code>](#Undoo)
+        * [.undo([callback])](#Undoo+undo) ⇒ [<code>Undoo</code>](#Undoo)
+        * [.redo([callback])](#Undoo+redo) ⇒ [<code>Undoo</code>](#Undoo)
         * [.current()](#Undoo+current) ⇒ <code>\*</code>
         * [.count()](#Undoo+count) ⇒ <code>number</code>
         * [.onUpdate(callback)](#Undoo+onUpdate) ⇒ [<code>Undoo</code>](#Undoo)
@@ -107,6 +109,30 @@ Create instance
     </tr>  </tbody>
 </table>
 
+<a name="Undoo+import"></a>
+
+### undoo.import(history) ⇒ [<code>Undoo</code>](#Undoo)
+Import external history
+
+**Kind**: instance method of [<code>Undoo</code>](#Undoo)  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>history</td><td><code>Array</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="Undoo+history"></a>
+
+### undoo.history() ⇒ <code>Array</code>
+Get history
+
+**Kind**: instance method of [<code>Undoo</code>](#Undoo)  
 <a name="Undoo+save"></a>
 
 ### undoo.save([item]) ⇒ [<code>Undoo</code>](#Undoo)
@@ -133,7 +159,7 @@ Clear history
 **Kind**: instance method of [<code>Undoo</code>](#Undoo)  
 <a name="Undoo+undo"></a>
 
-### undoo.undo(callback) ⇒ [<code>Undoo</code>](#Undoo)
+### undoo.undo([callback]) ⇒ [<code>Undoo</code>](#Undoo)
 Undo
 
 **Kind**: instance method of [<code>Undoo</code>](#Undoo)  
@@ -145,14 +171,14 @@ Undo
   </thead>
   <tbody>
 <tr>
-    <td>callback</td><td><code><a href="#Undoo..undoCallback">undoCallback</a></code></td><td><p>callback function</p>
+    <td>[callback]</td><td><code><a href="#Undoo..undoCallback">undoCallback</a></code></td><td><p>callback function</p>
 </td>
     </tr>  </tbody>
 </table>
 
 <a name="Undoo+redo"></a>
 
-### undoo.redo(callback) ⇒ [<code>Undoo</code>](#Undoo)
+### undoo.redo([callback]) ⇒ [<code>Undoo</code>](#Undoo)
 Redo
 
 **Kind**: instance method of [<code>Undoo</code>](#Undoo)  
@@ -164,7 +190,7 @@ Redo
   </thead>
   <tbody>
 <tr>
-    <td>callback</td><td><code><a href="#Undoo..redoCallback">redoCallback</a></code></td><td><p>callback function</p>
+    <td>[callback]</td><td><code><a href="#Undoo..redoCallback">redoCallback</a></code></td><td><p>callback function</p>
 </td>
     </tr>  </tbody>
 </table>
