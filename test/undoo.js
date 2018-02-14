@@ -139,4 +139,24 @@ describe('Undoo', function () {
         be.err.equal('foo', myUndo.current());
         be.err(done).equal([ 'world', 'ciao', 'miao', 'bau', 'foo' ], myUndo._history);
     });
+
+    it('import and history', function (done) {
+        const myUndo = new Undoo();
+
+        myUndo.import([ 'world', 'ciao', 'miao', 'bau', 'foo' ]);
+
+        console.log(myUndo.count());
+        be.err.equal('foo', myUndo.current());
+        be.err(done).equal([ 'world', 'ciao', 'miao', 'bau', 'foo' ], myUndo.history());
+    });
+
+    it('import with error', function (done) {
+        const myUndo = new Undoo();
+
+        try {
+            myUndo.import({a: 1});
+        } catch (e) {
+            done();
+        }
+    });
 });
