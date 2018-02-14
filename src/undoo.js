@@ -17,11 +17,18 @@ class Undoo {
             provider: null,
             maxLength: 20
         });
-
-        this._history = [];
-        this._position = 0;
+        this._initiliaze();
         this._onUpdate = () => {
         };
+    }
+
+    /**
+     * @ignore
+     * @private
+     */
+    _initiliaze() {
+        this._history = [];
+        this._position = 0;
     }
 
     /**
@@ -49,6 +56,27 @@ class Undoo {
      */
     _canRedo() {
         return this._position < this.count();
+    }
+
+    /**
+     * Import external history
+     * @param history {Array}
+     * @returns {Undoo}
+     */
+    import(history = []) {
+        if(!Array.isArray(history))
+            throw new TypeError('Items must be an array');
+        this._initiliaze();
+        this._history = history;
+        return this;
+    }
+
+    /**
+     * Get history
+     * @returns {Array}
+     */
+    history() {
+        return this._history;
     }
 
     /**
@@ -82,8 +110,7 @@ class Undoo {
      * @returns {Undoo}
      */
     clear() {
-        this._history = [];
-        this._position = 0;
+        this._initiliaze();
         this._onUpdate.call(null, null, 'clear');
         return this;
     }
