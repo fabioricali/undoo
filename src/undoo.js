@@ -13,13 +13,33 @@ class Undoo {
      * @param [opts.maxLength=20] {number} max length history
      */
     constructor(opts) {
-        this.opts = extend.copy(opts, {
+
+        Object.defineProperties(this, {
+            _opts: {
+                writable: true,
+                enumerable: false
+            },
+            _history: {
+                writable: true,
+                enumerable: false
+            },
+            _position: {
+                writable: true,
+                enumerable: false
+            },
+            _onUpdate: {
+                writable: true,
+                enumerable: false,
+                value: ()=>{}
+            }
+        });
+
+        this._opts = extend.copy(opts, {
             provider: null,
             maxLength: 20
         });
+
         this._initiliaze();
-        this._onUpdate = () => {
-        };
     }
 
     /**
@@ -36,7 +56,7 @@ class Undoo {
      * @private
      */
     _checkExceeded() {
-        if (this.count() > this.opts.maxLength)
+        if (this.count() > this._opts.maxLength)
             this._history = this._history.slice(1, this.count());
     }
 
@@ -86,8 +106,8 @@ class Undoo {
      */
     save(item) {
 
-        if (typeof item === 'undefined' && typeof this.opts.provider === 'function')
-            item = this.opts.provider();
+        if (typeof item === 'undefined' && typeof this._opts.provider === 'function')
+            item = this._opts.provider();
 
         if (isEqual(item, this.current()))
             return this;

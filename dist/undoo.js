@@ -112,7 +112,7 @@ var Undoo = function () {
     function Undoo(opts) {
         _classCallCheck(this, Undoo);
 
-        this.opts = extend.copy(opts, {
+        this._opts = extend.copy(opts, {
             provider: null,
             maxLength: 20
         });
@@ -131,7 +131,7 @@ var Undoo = function () {
     _createClass(Undoo, [{
         key: '_checkExceeded',
         value: function _checkExceeded() {
-            if (this.count() > this.opts.maxLength) this._history = this._history.slice(1, this.count());
+            if (this.count() > this._opts.maxLength) this._history = this._history.slice(1, this.count());
         }
 
         /**
@@ -168,7 +168,7 @@ var Undoo = function () {
         key: 'save',
         value: function save(item) {
 
-            if (typeof item === 'undefined' && typeof this.opts.provider === 'function') item = this.opts.provider();
+            if (typeof item === 'undefined' && typeof this._opts.provider === 'function') item = this._opts.provider();
 
             if (isEqual(item, this.current())) return this;
 
