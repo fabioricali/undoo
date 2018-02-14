@@ -143,7 +143,7 @@ class Undoo {
 
     /**
      * Undo
-     * @param callback {Undoo~undoCallback} callback function
+     * @param [callback] {Undoo~undoCallback} callback function
      * @returns {Undoo}
      */
     undo(callback) {
@@ -164,7 +164,7 @@ class Undoo {
 
     /**
      * Redo
-     * @param callback {Undoo~redoCallback} callback function
+     * @param [callback] {Undoo~redoCallback} callback function
      * @returns {Undoo}
      */
     redo(callback) {
