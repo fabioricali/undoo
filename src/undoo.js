@@ -101,6 +101,7 @@ class Undoo {
         this._initiliaze();
         this._history = history;
         this._position = this._history.length;
+        this._initialState = history[0];
         return this;
     }
 
