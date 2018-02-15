@@ -172,15 +172,15 @@ describe('Undoo', function () {
         be.err(done).null(myUndo.current());
     });
 
-    it('onBeforeSave should be return true', function (done) {
+    it('onBeforeSave should be return ciao', function (done) {
         const myUndo = new Undoo();
 
-        myUndo.onBeforeSave(()=>true);
+        myUndo.onBeforeSave(()=>'ciao');
 
         myUndo.save('hello');
 
         console.log(myUndo._history);
 
-        be.err(done).equal('hello', myUndo.current());
+        be.err(done).equal('ciao', myUndo.current());
     });
 });

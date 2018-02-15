@@ -79,6 +79,16 @@ class Undoo {
     }
 
     /**
+     * ignore
+     * @param callback
+     * @private
+     */
+    static callbackError(callback) {
+        if (typeof callback !== 'function')
+            throw new TypeError('callback must be a function');
+    }
+
+    /**
      * Import external history
      * @param history {Array}
      * @returns {Undoo}
@@ -110,7 +120,11 @@ class Undoo {
         if (typeof item === 'undefined' && typeof this._opts.provider === 'function')
             item = this._opts.provider();
 
-        if (isEqual(item, this.current()) || this._onBeforeSave.call(null, this.current()) === false)
+        let beforeSave = this._onBeforeSave.call(null, item);
+
+        item = beforeSave || item;
+
+        if (isEqual(item, this.current()) || beforeSave === false)
             return this;
 
         if (this._position < this.count())
@@ -207,6 +221,7 @@ class Undoo {
      * @returns {Undoo}
      */
     onUpdate(callback) {
+        Undoo.callbackError(callback);
         this._onUpdate = callback;
         return this;
     }
@@ -223,6 +238,7 @@ class Undoo {
      * @returns {Undoo}
      */
     onBeforeSave(callback) {
+        Undoo.callbackError(callback);
         this._onBeforeSave = callback;
         return this;
     }
