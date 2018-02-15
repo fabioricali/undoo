@@ -159,7 +159,7 @@ var Undoo = function () {
          */
 
     }, {
-        key: '_checkExceeded',
+        key: '_checkMaxLength',
         value: function _checkExceeded() {
             if (this.count() > this._opts.maxLength) this._history = this._history.slice(1, this.count());
         }
@@ -244,7 +244,7 @@ var Undoo = function () {
 
             if (typeof item !== 'undefined') this._history.push(item);
 
-            this._checkExceeded();
+            this._checkMaxLength();
             this._position = this.count();
             this._onUpdate.call(null, this.current(), 'save', this.history());
 

@@ -59,7 +59,7 @@ class Undoo {
      * @ignore
      * @private
      */
-    _checkExceeded() {
+    _checkMaxLength() {
         if (this._history.length > this._opts.maxLength)
             this._history = this._history.slice(1, this._history.length);
     }
@@ -138,7 +138,7 @@ class Undoo {
                 this._initialState = item;
         }
 
-        this._checkExceeded();
+        this._checkMaxLength();
         this._position = this._history.length;
         this._onUpdate.call(null, this.current(), 'save', this.history());
 
