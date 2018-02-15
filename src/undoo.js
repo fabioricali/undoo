@@ -72,7 +72,7 @@ class Undoo {
         if (this._history.length > this._opts.maxLength) {
             this._history = this._history.slice(1, this._history.length);
             if (!this._isExceeded) {
-                this._onMaxLength.call(null, this.current(), this.history());
+                this._onMaxLength.call(null, this.current(), this.history(), this);
                 this._isExceeded = true;
             }
         } else {
@@ -139,7 +139,7 @@ class Undoo {
         if (typeof item === 'undefined' && typeof this._opts.provider === 'function')
             item = this._opts.provider();
 
-        let beforeSave = this._onBeforeSave.call(null, item);
+        let beforeSave = this._onBeforeSave.call(null, item, this);
 
         item = beforeSave || item;
 
@@ -157,7 +157,7 @@ class Undoo {
 
         this._checkMaxLength();
         this._position = this._history.length;
-        this._onUpdate.call(null, this.current(), 'save', this.history());
+        this._onUpdate.call(null, this.current(), 'save', this.history(), this);
 
         return this;
     }
@@ -168,7 +168,7 @@ class Undoo {
      */
     clear() {
         this._initiliaze();
-        this._onUpdate.call(null, null, 'clear', this.history());
+        this._onUpdate.call(null, null, 'clear', this.history(), this);
         return this;
     }
 
@@ -188,7 +188,7 @@ class Undoo {
             this._position--;
             if (typeof callback === 'function')
                 callback(this.current());
-            this._onUpdate.call(null, this.current(), 'undo', this.history());
+            this._onUpdate.call(null, this.current(), 'undo', this.history(), this);
         }
         return this;
     }
@@ -209,7 +209,7 @@ class Undoo {
             this._position++;
             if (typeof callback === 'function')
                 callback(this.current());
-            this._onUpdate.call(null, this.current(), 'redo', this.history());
+            this._onUpdate.call(null, this.current(), 'redo', this.history(), this);
         }
         return this;
     }
@@ -244,6 +244,7 @@ class Undoo {
      * @param item {*} current history item
      * @param action {string} action that has called update event. Can be: redo, undo, save, clear
      * @param history {Array} history array
+     * @param istance {Undoo}
      */
 
     /**
@@ -262,6 +263,7 @@ class Undoo {
      * @callback Undoo~maxLengthCallback
      * @param item {*} current history item
      * @param history {Array} history array
+     * @param istance {Undoo}
      */
 
     /**
@@ -279,6 +281,7 @@ class Undoo {
      * onBeforeSave callback
      * @callback Undoo~beforeSaveCallback
      * @param item {*} current history item
+     * @param istance {Undoo}
      */
 
     /**
