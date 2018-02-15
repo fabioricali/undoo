@@ -80,10 +80,12 @@ myHistory.save();
         * [.current()](#Undoo+current) ⇒ <code>\*</code>
         * [.count()](#Undoo+count) ⇒ <code>number</code>
         * [.onUpdate(callback)](#Undoo+onUpdate) ⇒ [<code>Undoo</code>](#Undoo)
+        * [.onBeforeSave(callback)](#Undoo+onBeforeSave) ⇒ [<code>Undoo</code>](#Undoo)
     * _inner_
         * [~undoCallback](#Undoo..undoCallback) : <code>function</code>
         * [~redoCallback](#Undoo..redoCallback) : <code>function</code>
         * [~updateCallback](#Undoo..updateCallback) : <code>function</code>
+        * [~beforeSaveCallback](#Undoo..beforeSaveCallback) : <code>function</code>
 
 <a name="new_Undoo_new"></a>
 
@@ -226,6 +228,29 @@ Triggered when history is updated
     </tr>  </tbody>
 </table>
 
+<a name="Undoo+onBeforeSave"></a>
+
+### undoo.onBeforeSave(callback) ⇒ [<code>Undoo</code>](#Undoo)
+Triggered before save
+
+**Kind**: instance method of [<code>Undoo</code>](#Undoo)  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th><th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>callback</td><td><code><a href="#Undoo..beforeSaveCallback">beforeSaveCallback</a></code></td><td><p>callback function</p>
+</td>
+    </tr>  </tbody>
+</table>
+
+**Example**  
+```js
+// If callback returns `false` the save command will not be executedmyHistory.onBeforeSave(()=>false)// You can overwrite item before savemyHistory.onBeforeSave((item)=>{     return item.toUpperCase();})
+```
 <a name="Undoo..undoCallback"></a>
 
 ### Undoo~undoCallback : <code>function</code>
@@ -282,6 +307,25 @@ onUpdate callback
 </td>
     </tr><tr>
     <td>action</td><td><code>string</code></td><td><p>action that has called update event. Can be: redo, undo, save, clear</p>
+</td>
+    </tr>  </tbody>
+</table>
+
+<a name="Undoo..beforeSaveCallback"></a>
+
+### Undoo~beforeSaveCallback : <code>function</code>
+onBeforeSave callback
+
+**Kind**: inner typedef of [<code>Undoo</code>](#Undoo)  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th><th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>item</td><td><code>*</code></td><td><p>current history item</p>
 </td>
     </tr>  </tbody>
 </table>

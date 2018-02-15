@@ -1,4 +1,4 @@
-// [AIV]  Undoo Build version: 0.2.0  
+// [AIV]  Undoo Build version: 0.3.0  
  (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -125,6 +125,10 @@ var Undoo = function () {
             _onUpdate: {
                 writable: true,
                 value: function value() {}
+            },
+            _onBeforeSave: {
+                writable: true,
+                value: function value() {}
             }
         });
 
@@ -185,13 +189,20 @@ var Undoo = function () {
         }
 
         /**
-         * Import external history
-         * @param history {Array}
-         * @returns {Undoo}
+         * ignore
+         * @param callback
+         * @private
          */
 
     }, {
         key: 'import',
+
+
+        /**
+         * Import external history
+         * @param history {Array}
+         * @returns {Undoo}
+         */
         value: function _import() {
             var history = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
@@ -225,7 +236,11 @@ var Undoo = function () {
 
             if (typeof item === 'undefined' && typeof this._opts.provider === 'function') item = this._opts.provider();
 
-            if (isEqual(item, this.current())) return this;
+            var beforeSave = this._onBeforeSave.call(null, item);
+
+            item = beforeSave || item;
+
+            if (isEqual(item, this.current()) || beforeSave === false) return this;
 
             if (this._position < this.count()) this._history = this._history.slice(0, this._position);
 
@@ -335,8 +350,42 @@ var Undoo = function () {
     }, {
         key: 'onUpdate',
         value: function onUpdate(callback) {
+            Undoo.callbackError(callback);
             this._onUpdate = callback;
             return this;
+        }
+
+        /**
+         * onBeforeSave callback
+         * @callback Undoo~beforeSaveCallback
+         * @param item {*} current history item
+         */
+
+        /**
+         * Triggered before save
+         * @param callback {Undoo~beforeSaveCallback} callback function
+         * @returns {Undoo}
+         * @example
+         * // If callback returns `false` the save command will not be executed
+         * myHistory.onBeforeSave(()=>false)
+         *
+         * // You can overwrite item before save
+         * myHistory.onBeforeSave((item)=>{
+         *      return item.toUpperCase();
+         * })
+         */
+
+    }, {
+        key: 'onBeforeSave',
+        value: function onBeforeSave(callback) {
+            Undoo.callbackError(callback);
+            this._onBeforeSave = callback;
+            return this;
+        }
+    }], [{
+        key: 'callbackError',
+        value: function callbackError(callback) {
+            if (typeof callback !== 'function') throw new TypeError('callback must be a function');
         }
     }]);
 
