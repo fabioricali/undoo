@@ -27,6 +27,10 @@ class Undoo {
             _onUpdate: {
                 writable: true,
                 value: ()=>{}
+            },
+            _onBeforeSave: {
+                writable: true,
+                value: ()=>{}
             }
         });
 
@@ -106,7 +110,7 @@ class Undoo {
         if (typeof item === 'undefined' && typeof this._opts.provider === 'function')
             item = this._opts.provider();
 
-        if (isEqual(item, this.current()))
+        if (isEqual(item, this.current()) || this._onBeforeSave.call(null, this.current()) === false)
             return this;
 
         if (this._position < this.count())
@@ -204,6 +208,22 @@ class Undoo {
      */
     onUpdate(callback) {
         this._onUpdate = callback;
+        return this;
+    }
+
+    /**
+     * onBeforeSave callback
+     * @callback Undoo~beforeSaveCallback
+     * @param item {*} current history item
+     */
+
+    /**
+     * Triggered before save
+     * @param callback {Undoo~beforeSaveCallback} callback function
+     * @returns {Undoo}
+     */
+    onBeforeSave(callback) {
+        this._onBeforeSave = callback;
         return this;
     }
 
