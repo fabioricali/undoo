@@ -133,7 +133,7 @@ class Undoo {
 
         this._checkExceeded();
         this._position = this.count();
-        this._onUpdate.call(null, this.current(), 'save');
+        this._onUpdate.call(null, this.current(), 'save', this.history());
 
         return this;
     }
@@ -144,7 +144,7 @@ class Undoo {
      */
     clear() {
         this._initiliaze();
-        this._onUpdate.call(null, null, 'clear');
+        this._onUpdate.call(null, null, 'clear', this.history());
         return this;
     }
 
@@ -164,7 +164,7 @@ class Undoo {
             this._position--;
             if (typeof callback === 'function')
                 callback(this.current());
-            this._onUpdate.call(null, this.current(), 'undo');
+            this._onUpdate.call(null, this.current(), 'undo', this.history());
         }
         return this;
     }
@@ -185,7 +185,7 @@ class Undoo {
             this._position++;
             if (typeof callback === 'function')
                 callback(this.current());
-            this._onUpdate.call(null, this.current(), 'redo');
+            this._onUpdate.call(null, this.current(), 'redo', this.history());
         }
         return this;
     }
@@ -211,6 +211,7 @@ class Undoo {
      * @callback Undoo~updateCallback
      * @param item {*} current history item
      * @param action {string} action that has called update event. Can be: redo, undo, save, clear
+     * @param history {Array} history array
      */
 
     /**
