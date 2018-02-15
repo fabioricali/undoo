@@ -56,8 +56,8 @@ class Undoo {
      * @private
      */
     _checkExceeded() {
-        if (this.count() > this._opts.maxLength)
-            this._history = this._history.slice(1, this.count());
+        if (this._history.length > this._opts.maxLength)
+            this._history = this._history.slice(1, this._history.length);
     }
 
     /**
@@ -73,7 +73,7 @@ class Undoo {
      * @returns {boolean}
      */
     canRedo() {
-        return this._position < this.count();
+        return this._position < this._history.length;
     }
 
     /**
@@ -96,7 +96,7 @@ class Undoo {
             throw new TypeError('Items must be an array');
         this._initiliaze();
         this._history = history;
-        this._position = this.count();
+        this._position = this._history.length;
         return this;
     }
 
@@ -125,14 +125,14 @@ class Undoo {
         if (isEqual(item, this.current()) || beforeSave === false)
             return this;
 
-        if (this._position < this.count())
+        if (this._position < this._history.length)
             this._history = this._history.slice(0, this._position);
 
         if (typeof item !== 'undefined')
             this._history.push(item);
 
         this._checkExceeded();
-        this._position = this.count();
+        this._position = this._history.length;
         this._onUpdate.call(null, this.current(), 'save', this.history());
 
         return this;
@@ -195,15 +195,15 @@ class Undoo {
      * @returns {*}
      */
     current() {
-        return this.count() ? this._history[this._position - 1] : null;
+        return this._history.length ? this._history[this._position - 1] : null;
     }
 
     /**
-     * Count history items
+     * Count history items, the first element is not considered
      * @returns {number}
      */
     count() {
-        return this._history.length;
+        return this._history.length ? this._history.length - 1 : 0;
     }
 
     /**
