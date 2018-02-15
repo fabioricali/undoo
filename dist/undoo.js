@@ -1,4 +1,4 @@
-// [AIV]  Undoo Build version: 0.3.1  
+// [AIV]  Undoo Build version: 0.3.2  
  (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -172,7 +172,7 @@ var Undoo = function () {
     }, {
         key: 'canUndo',
         value: function canUndo() {
-            return this._position > 0;
+            return this._position > 1;
         }
 
         /**
