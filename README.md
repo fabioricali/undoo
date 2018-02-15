@@ -71,6 +71,8 @@ myHistory.save();
 * [Undoo](#Undoo)
     * [new Undoo([opts])](#new_Undoo_new)
     * _instance_
+        * [.canUndo()](#Undoo+canUndo) ⇒ <code>boolean</code>
+        * [.canRedo()](#Undoo+canRedo) ⇒ <code>boolean</code>
         * [.import(history)](#Undoo+import) ⇒ [<code>Undoo</code>](#Undoo)
         * [.history()](#Undoo+history) ⇒ <code>Array</code>
         * [.save([item])](#Undoo+save) ⇒ [<code>Undoo</code>](#Undoo)
@@ -111,6 +113,17 @@ Create instance
     </tr>  </tbody>
 </table>
 
+<a name="Undoo+canUndo"></a>
+
+### undoo.canUndo() ⇒ <code>boolean</code>
+Check if undo is available
+
+**Kind**: instance method of [<code>Undoo</code>](#Undoo)  
+<a name="Undoo+canRedo"></a>
+
+### undoo.canRedo() ⇒ <code>boolean</code>
+**Kind**: instance method of [<code>Undoo</code>](#Undoo)  
+**Check**: if redo is available  
 <a name="Undoo+import"></a>
 
 ### undoo.import(history) ⇒ [<code>Undoo</code>](#Undoo)
@@ -307,6 +320,9 @@ onUpdate callback
 </td>
     </tr><tr>
     <td>action</td><td><code>string</code></td><td><p>action that has called update event. Can be: redo, undo, save, clear</p>
+</td>
+    </tr><tr>
+    <td>history</td><td><code>Array</code></td><td><p>history array</p>
 </td>
     </tr>  </tbody>
 </table>

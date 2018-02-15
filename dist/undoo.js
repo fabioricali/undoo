@@ -1,4 +1,4 @@
-// [AIV]  Undoo Build version: 0.3.0  
+// [AIV]  Undoo Build version: 0.3.1  
  (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -165,26 +165,24 @@ var Undoo = function () {
         }
 
         /**
-         * @ignore
+         * Check if undo is available
          * @returns {boolean}
-         * @private
          */
 
     }, {
         key: 'canUndo',
-        value: function _canUndo() {
+        value: function canUndo() {
             return this._position > 0;
         }
 
         /**
-         * @ignore
+         * @Check if redo is available
          * @returns {boolean}
-         * @private
          */
 
     }, {
         key: 'canRedo',
-        value: function _canRedo() {
+        value: function canRedo() {
             return this._position < this.count();
         }
 
@@ -248,7 +246,7 @@ var Undoo = function () {
 
             this._checkExceeded();
             this._position = this.count();
-            this._onUpdate.call(null, this.current(), 'save');
+            this._onUpdate.call(null, this.current(), 'save', this.history());
 
             return this;
         }
@@ -262,7 +260,7 @@ var Undoo = function () {
         key: 'clear',
         value: function clear() {
             this._initiliaze();
-            this._onUpdate.call(null, null, 'clear');
+            this._onUpdate.call(null, null, 'clear', this.history());
             return this;
         }
 
@@ -284,7 +282,7 @@ var Undoo = function () {
             if (this.canUndo()) {
                 this._position--;
                 if (typeof callback === 'function') callback(this.current());
-                this._onUpdate.call(null, this.current(), 'undo');
+                this._onUpdate.call(null, this.current(), 'undo', this.history());
             }
             return this;
         }
@@ -307,7 +305,7 @@ var Undoo = function () {
             if (this.canRedo()) {
                 this._position++;
                 if (typeof callback === 'function') callback(this.current());
-                this._onUpdate.call(null, this.current(), 'redo');
+                this._onUpdate.call(null, this.current(), 'redo', this.history());
             }
             return this;
         }
@@ -339,6 +337,7 @@ var Undoo = function () {
          * @callback Undoo~updateCallback
          * @param item {*} current history item
          * @param action {string} action that has called update event. Can be: redo, undo, save, clear
+         * @param history {Array} history array
          */
 
         /**
