@@ -189,6 +189,14 @@ class Undoo {
     }
 
     /**
+     * Check if save is allowed
+     * @returns {boolean}
+     */
+    allowedSave() {
+        return !this._suspendSave;
+    }
+
+    /**
      * Clear history
      * @returns {Undoo}
      */

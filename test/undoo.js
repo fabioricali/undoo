@@ -197,6 +197,7 @@ describe('Undoo', function () {
 
         console.log(myUndo._history);
 
+        be.err().false(myUndo.allowedSave());
         be.err(done).equal('hello', myUndo.current());
     });
 
