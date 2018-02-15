@@ -53,15 +53,22 @@
     const myHistory = new Undoo({
         provider: ()=> message.value
     }).onUpdate((item, action, history)=>{
+
         console.log(history);
         appendLog(action + ':' + item);
         toggle(btnRedo, myHistory.canRedo());
         toggle(btnUndo, myHistory.canUndo());
+
     }).onBeforeSave((item)=>{
+
         appendLog('beforeSave:' + item);
+
     }).onMaxLength(()=>{
+
         appendLog('maxLength');
+
     });
+
     appendLog('Save initial state');
     myHistory.save();
 
