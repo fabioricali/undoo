@@ -24,6 +24,9 @@ class Undoo {
             _position: {
                 writable: true
             },
+            _initialState: {
+                writable: true
+            },
             _onUpdate: {
                 writable: true,
                 value: ()=>{}
@@ -47,6 +50,7 @@ class Undoo {
      * @private
      */
     _initiliaze() {
+        this._initialState = undefined;
         this._history = [];
         this._position = 0;
     }
@@ -128,8 +132,11 @@ class Undoo {
         if (this._position < this._history.length)
             this._history = this._history.slice(0, this._position);
 
-        if (typeof item !== 'undefined')
+        if (typeof item !== 'undefined') {
             this._history.push(item);
+            if (this._initialState === undefined)
+                this._initialState = item;
+        }
 
         this._checkExceeded();
         this._position = this._history.length;
