@@ -42,6 +42,10 @@ class Undoo {
             _isExceeded: {
                 writable: true,
                 value: false
+            },
+            _suspendSave: {
+                writable: true,
+                value: false
             }
         });
 
@@ -143,7 +147,7 @@ class Undoo {
 
         item = beforeSave || item;
 
-        if (isEqual(item, this.current()) || beforeSave === false)
+        if (isEqual(item, this.current()) || beforeSave === false || !this._suspendSave)
             return this;
 
         if (this._position < this._history.length)
@@ -159,6 +163,16 @@ class Undoo {
         this._position = this._history.length;
         this._onUpdate.call(null, this.current(), 'save', this.history(), this);
 
+        return this;
+    }
+
+    /**
+     * Suspend save method
+     * @param [state=true] {boolean}
+     * @returns {Undoo}
+     */
+    suspendSave(state = true) {
+        this._suspendSave = state;
         return this;
     }
 
