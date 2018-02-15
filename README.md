@@ -76,6 +76,8 @@ myHistory.save();
         * [.import(history)](#Undoo+import) ⇒ [<code>Undoo</code>](#Undoo)
         * [.history()](#Undoo+history) ⇒ <code>Array</code>
         * [.save([item])](#Undoo+save) ⇒ [<code>Undoo</code>](#Undoo)
+        * [.suspendSave([state])](#Undoo+suspendSave) ⇒ [<code>Undoo</code>](#Undoo)
+        * [.allowedSave()](#Undoo+allowedSave) ⇒ <code>boolean</code>
         * [.clear()](#Undoo+clear) ⇒ [<code>Undoo</code>](#Undoo)
         * [.undo([callback])](#Undoo+undo) ⇒ [<code>Undoo</code>](#Undoo)
         * [.redo([callback])](#Undoo+redo) ⇒ [<code>Undoo</code>](#Undoo)
@@ -169,6 +171,30 @@ Save history
     </tr>  </tbody>
 </table>
 
+<a name="Undoo+suspendSave"></a>
+
+### undoo.suspendSave([state]) ⇒ [<code>Undoo</code>](#Undoo)
+Suspend save method
+
+**Kind**: instance method of [<code>Undoo</code>](#Undoo)  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th><th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>[state]</td><td><code>boolean</code></td><td><code>true</code></td>
+    </tr>  </tbody>
+</table>
+
+<a name="Undoo+allowedSave"></a>
+
+### undoo.allowedSave() ⇒ <code>boolean</code>
+Check if save is allowed
+
+**Kind**: instance method of [<code>Undoo</code>](#Undoo)  
 <a name="Undoo+clear"></a>
 
 ### undoo.clear() ⇒ [<code>Undoo</code>](#Undoo)

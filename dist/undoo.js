@@ -1,4 +1,4 @@
-// [AIV]  Undoo Build version: 0.4.0  
+// [AIV]  Undoo Build version: 0.5.0  
  (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -140,6 +140,10 @@ var Undoo = function () {
             _isExceeded: {
                 writable: true,
                 value: false
+            },
+            _suspendSave: {
+                writable: true,
+                value: false
             }
         });
 
@@ -183,6 +187,21 @@ var Undoo = function () {
             } else {
                 this._isExceeded = false;
             }
+        }
+
+        /**
+         *
+         * @param item
+         * @param beforeSave
+         * @returns {boolean|*}
+         * @private
+         * @ignore
+         */
+
+    }, {
+        key: '_rejectSave',
+        value: function _rejectSave(item, beforeSave) {
+            return isEqual(item, this.current()) || beforeSave === false || this._suspendSave;
         }
 
         /**
@@ -260,7 +279,7 @@ var Undoo = function () {
 
             item = beforeSave || item;
 
-            if (isEqual(item, this.current()) || beforeSave === false) return this;
+            if (this._rejectSave(item, beforeSave)) return this;
 
             if (this._position < this._history.length) this._history = this._history.slice(0, this._position);
 
@@ -274,6 +293,32 @@ var Undoo = function () {
             this._onUpdate.call(null, this.current(), 'save', this.history(), this);
 
             return this;
+        }
+
+        /**
+         * Suspend save method
+         * @param [state=true] {boolean}
+         * @returns {Undoo}
+         */
+
+    }, {
+        key: 'suspendSave',
+        value: function suspendSave() {
+            var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+            this._suspendSave = state;
+            return this;
+        }
+
+        /**
+         * Check if save is allowed
+         * @returns {boolean}
+         */
+
+    }, {
+        key: 'allowedSave',
+        value: function allowedSave() {
+            return !this._suspendSave;
         }
 
         /**
