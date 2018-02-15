@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Undoo</title>
+    <script src="../dist/undoo.js"></script>
+    <style>
+        body{
+            font-family: sans-serif;
+        }
+        textarea{
+            width: 300px;
+            height: 150px;
+        }
+        fieldset {
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+<h1>Undoo</h1>
+<p>History manager</p>
+<fieldset>
+<button id="btn-undo">UNDO</button> <button id="btn-redo">REDO</button> <button id="btn-clear">CLEAR</button>
+</fieldset>
+<p>Message</p>
+<fieldset>
+    <textarea id="message" placeholder="write a text"></textarea>
+</fieldset>
+<p>Log</p>
+<fieldset>
+    <textarea id="log"></textarea>
+</fieldset>
+<script>
+    let message = document.getElementById('message');
+    let btnUndo = document.getElementById('btn-undo');
+    let btnRedo = document.getElementById('btn-redo');
+    let btnClear = document.getElementById('btn-clear');
+    let log = document.getElementById('log');
+
+    function toggle(el, state){
+        if (!state)
+            el.setAttribute('disabled', '');
+        else
+            el.removeAttribute('disabled');
+    }
+
+    function appendLog(msg) {
+        log.value += msg + "\n-----------------------\n";
+    }
+
+    const myHistory = new Undoo({
+        provider: ()=> message.value
+    }).onUpdate((item, action, history)=>{
+        console.log(history);
+        appendLog(action + ':' + item);
+        toggle(btnRedo, myHistory.canRedo());
+        toggle(btnUndo, myHistory.canUndo());
+    }).onBeforeSave((item)=>{
+        appendLog('beforeSave:' + item);
+    });
+
+    appendLog('Save initial state');
+    myHistory.save();
+
+    message.addEventListener('keyup', ()=>{
+        console.log('press');
+        myHistory.save();
+    });
+
+    btnUndo.addEventListener('click', ()=>{
+        myHistory.undo((item)=>{
+            message.value = item
+        });
+    });
+
+    btnRedo.addEventListener('click', ()=>{
+        myHistory.redo((item)=>{
+            message.value = item
+        });
+    });
+
+    btnClear.addEventListener('click', ()=>{
+        myHistory.clear();
+    });
+</script>
+</body>
+</html>

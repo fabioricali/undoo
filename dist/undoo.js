@@ -122,6 +122,9 @@ var Undoo = function () {
             _position: {
                 writable: true
             },
+            _initialState: {
+                writable: true
+            },
             _onUpdate: {
                 writable: true,
                 value: function value() {}
@@ -149,6 +152,7 @@ var Undoo = function () {
     _createClass(Undoo, [{
         key: '_initiliaze',
         value: function _initiliaze() {
+            this._initialState = undefined;
             this._history = [];
             this._position = 0;
         }
@@ -160,8 +164,8 @@ var Undoo = function () {
 
     }, {
         key: '_checkMaxLength',
-        value: function _checkExceeded() {
-            if (this.count() > this._opts.maxLength) this._history = this._history.slice(1, this.count());
+        value: function _checkMaxLength() {
+            if (this._history.length > this._opts.maxLength) this._history = this._history.slice(1, this._history.length);
         }
 
         /**
@@ -183,7 +187,7 @@ var Undoo = function () {
     }, {
         key: 'canRedo',
         value: function canRedo() {
-            return this._position < this.count();
+            return this._position < this._history.length;
         }
 
         /**
@@ -207,7 +211,8 @@ var Undoo = function () {
             if (!Array.isArray(history)) throw new TypeError('Items must be an array');
             this._initiliaze();
             this._history = history;
-            this._position = this.count();
+            this._position = this._history.length;
+            this._initialState = history[0];
             return this;
         }
 
@@ -240,12 +245,15 @@ var Undoo = function () {
 
             if (isEqual(item, this.current()) || beforeSave === false) return this;
 
-            if (this._position < this.count()) this._history = this._history.slice(0, this._position);
+            if (this._position < this._history.length) this._history = this._history.slice(0, this._position);
 
-            if (typeof item !== 'undefined') this._history.push(item);
+            if (typeof item !== 'undefined') {
+                this._history.push(item);
+                if (this._initialState === undefined) this._initialState = item;
+            }
 
             this._checkMaxLength();
-            this._position = this.count();
+            this._position = this._history.length;
             this._onUpdate.call(null, this.current(), 'save', this.history());
 
             return this;
@@ -318,18 +326,18 @@ var Undoo = function () {
     }, {
         key: 'current',
         value: function current() {
-            return this.count() ? this._history[this._position - 1] : null;
+            return this._history.length ? this._history[this._position - 1] : null;
         }
 
         /**
-         * Count history items
+         * Count history items, the first element is not considered
          * @returns {number}
          */
 
     }, {
         key: 'count',
         value: function count() {
-            return this._history.length;
+            return this._history.length ? this._history.length - 1 : 0;
         }
 
         /**
