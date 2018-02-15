@@ -171,7 +171,7 @@ var Undoo = function () {
          */
 
     }, {
-        key: '_canUndo',
+        key: 'canUndo',
         value: function _canUndo() {
             return this._position > 0;
         }
@@ -183,7 +183,7 @@ var Undoo = function () {
          */
 
     }, {
-        key: '_canRedo',
+        key: 'canRedo',
         value: function _canRedo() {
             return this._position < this.count();
         }
@@ -281,7 +281,7 @@ var Undoo = function () {
     }, {
         key: 'undo',
         value: function undo(callback) {
-            if (this._canUndo()) {
+            if (this.canUndo()) {
                 this._position--;
                 if (typeof callback === 'function') callback(this.current());
                 this._onUpdate.call(null, this.current(), 'undo');
@@ -304,7 +304,7 @@ var Undoo = function () {
     }, {
         key: 'redo',
         value: function redo(callback) {
-            if (this._canRedo()) {
+            if (this.canRedo()) {
                 this._position++;
                 if (typeof callback === 'function') callback(this.current());
                 this._onUpdate.call(null, this.current(), 'redo');

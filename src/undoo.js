@@ -61,20 +61,18 @@ class Undoo {
     }
 
     /**
-     * @ignore
+     * Check if undo is available
      * @returns {boolean}
-     * @private
      */
-    _canUndo() {
+    canUndo() {
         return this._position > 0;
     }
 
     /**
-     * @ignore
+     * @Check if redo is available
      * @returns {boolean}
-     * @private
      */
-    _canRedo() {
+    canRedo() {
         return this._position < this.count();
     }
 
@@ -162,7 +160,7 @@ class Undoo {
      * @returns {Undoo}
      */
     undo(callback) {
-        if (this._canUndo()) {
+        if (this.canUndo()) {
             this._position--;
             if (typeof callback === 'function')
                 callback(this.current());
@@ -183,7 +181,7 @@ class Undoo {
      * @returns {Undoo}
      */
     redo(callback) {
-        if (this._canRedo()) {
+        if (this.canRedo()) {
             this._position++;
             if (typeof callback === 'function')
                 callback(this.current());
