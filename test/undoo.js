@@ -187,4 +187,29 @@ describe('Undoo', function () {
 
         be.err(done).equal('ciao', myUndo.current());
     });
+
+    it('suspendSave true, returns hello', function (done) {
+        const myUndo = new Undoo();
+
+        myUndo.save('hello');
+        myUndo.suspendSave();
+        myUndo.save('ciao');
+
+        console.log(myUndo._history);
+
+        be.err(done).equal('hello', myUndo.current());
+    });
+
+    it('suspendSave true and false, returns world', function (done) {
+        const myUndo = new Undoo();
+
+        myUndo.save('hello');
+        myUndo.suspendSave();
+        myUndo.save('ciao');
+        myUndo.suspendSave(false);
+        myUndo.save('world');
+        console.log(myUndo._history);
+
+        be.err(done).equal('world', myUndo.current());
+    });
 });
