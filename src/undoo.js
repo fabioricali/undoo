@@ -65,7 +65,7 @@ class Undoo {
      * @returns {boolean}
      */
     canUndo() {
-        return this._position > 0;
+        return this._position > 1;
     }
 
     /**
