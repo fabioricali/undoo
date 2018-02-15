@@ -236,6 +236,14 @@ class Undoo {
      * Triggered before save
      * @param callback {Undoo~beforeSaveCallback} callback function
      * @returns {Undoo}
+     * @example
+     * // If callback returns `false` the save command will not be executed
+     * myHistory.onBeforeSave(()=>false)
+     *
+     * // You can overwrite item before save
+     * myHistory.onBeforeSave((item)=>{
+     *      return item.toUpperCase();
+     * })
      */
     onBeforeSave(callback) {
         Undoo.callbackError(callback);
