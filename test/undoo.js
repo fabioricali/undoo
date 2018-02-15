@@ -159,4 +159,28 @@ describe('Undoo', function () {
             done();
         }
     });
+
+    it('onBeforeSave should be return false', function (done) {
+        const myUndo = new Undoo();
+
+        myUndo.onBeforeSave(()=>false);
+
+        myUndo.save('hello');
+
+        console.log(myUndo._history);
+
+        be.err(done).null(myUndo.current());
+    });
+
+    it('onBeforeSave should be return true', function (done) {
+        const myUndo = new Undoo();
+
+        myUndo.onBeforeSave(()=>true);
+
+        myUndo.save('hello');
+
+        console.log(myUndo._history);
+
+        be.err(done).equal('hello', myUndo.current());
+    });
 });
