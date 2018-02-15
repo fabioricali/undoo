@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 [0.5.0] - 2018-02-15
 - **Added** `suspendSave` method
-- **Added** `initialState` method
+- **Added** `allowedSave` method
 
 [0.4.0] - 2018-02-15
 - **Added** `onMaxLength` event
