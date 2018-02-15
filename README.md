@@ -81,12 +81,15 @@ myHistory.save();
         * [.redo([callback])](#Undoo+redo) ⇒ [<code>Undoo</code>](#Undoo)
         * [.current()](#Undoo+current) ⇒ <code>\*</code>
         * [.count()](#Undoo+count) ⇒ <code>number</code>
+        * [.initialState()](#Undoo+initialState) ⇒ <code>\*</code>
         * [.onUpdate(callback)](#Undoo+onUpdate) ⇒ [<code>Undoo</code>](#Undoo)
+        * [.onMaxLength(callback)](#Undoo+onMaxLength) ⇒ [<code>Undoo</code>](#Undoo)
         * [.onBeforeSave(callback)](#Undoo+onBeforeSave) ⇒ [<code>Undoo</code>](#Undoo)
     * _inner_
         * [~undoCallback](#Undoo..undoCallback) : <code>function</code>
         * [~redoCallback](#Undoo..redoCallback) : <code>function</code>
         * [~updateCallback](#Undoo..updateCallback) : <code>function</code>
+        * [~maxLengthCallback](#Undoo..maxLengthCallback) : <code>function</code>
         * [~beforeSaveCallback](#Undoo..beforeSaveCallback) : <code>function</code>
 
 <a name="new_Undoo_new"></a>
@@ -219,7 +222,13 @@ Get current item in history
 <a name="Undoo+count"></a>
 
 ### undoo.count() ⇒ <code>number</code>
-Count history items
+Count history items, the first element is not considered
+
+**Kind**: instance method of [<code>Undoo</code>](#Undoo)  
+<a name="Undoo+initialState"></a>
+
+### undoo.initialState() ⇒ <code>\*</code>
+Get initial state history
 
 **Kind**: instance method of [<code>Undoo</code>](#Undoo)  
 <a name="Undoo+onUpdate"></a>
@@ -237,6 +246,25 @@ Triggered when history is updated
   <tbody>
 <tr>
     <td>callback</td><td><code><a href="#Undoo..updateCallback">updateCallback</a></code></td><td><p>callback function</p>
+</td>
+    </tr>  </tbody>
+</table>
+
+<a name="Undoo+onMaxLength"></a>
+
+### undoo.onMaxLength(callback) ⇒ [<code>Undoo</code>](#Undoo)
+Triggered when maxLength is exceeded
+
+**Kind**: instance method of [<code>Undoo</code>](#Undoo)  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th><th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>callback</td><td><code><a href="#Undoo..maxLengthCallback">maxLengthCallback</a></code></td><td><p>callback function</p>
 </td>
     </tr>  </tbody>
 </table>
@@ -324,6 +352,32 @@ onUpdate callback
     </tr><tr>
     <td>history</td><td><code>Array</code></td><td><p>history array</p>
 </td>
+    </tr><tr>
+    <td>istance</td><td><code><a href="#Undoo">Undoo</a></code></td><td></td>
+    </tr>  </tbody>
+</table>
+
+<a name="Undoo..maxLengthCallback"></a>
+
+### Undoo~maxLengthCallback : <code>function</code>
+onMaxLength callback
+
+**Kind**: inner typedef of [<code>Undoo</code>](#Undoo)  
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th><th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>item</td><td><code>*</code></td><td><p>current history item</p>
+</td>
+    </tr><tr>
+    <td>history</td><td><code>Array</code></td><td><p>history array</p>
+</td>
+    </tr><tr>
+    <td>istance</td><td><code><a href="#Undoo">Undoo</a></code></td><td></td>
     </tr>  </tbody>
 </table>
 
@@ -343,6 +397,8 @@ onBeforeSave callback
 <tr>
     <td>item</td><td><code>*</code></td><td><p>current history item</p>
 </td>
+    </tr><tr>
+    <td>istance</td><td><code><a href="#Undoo">Undoo</a></code></td><td></td>
     </tr>  </tbody>
 </table>
 
