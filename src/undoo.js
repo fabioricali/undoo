@@ -85,6 +85,18 @@ class Undoo {
     }
 
     /**
+     *
+     * @param item
+     * @param beforeSave
+     * @returns {boolean|*}
+     * @private
+     * @ignore
+     */
+    _rejectSave(item, beforeSave) {
+        return isEqual(item, this.current()) || beforeSave === false || this._suspendSave;
+    }
+
+    /**
      * Check if undo is available
      * @returns {boolean}
      */
@@ -147,7 +159,7 @@ class Undoo {
 
         item = beforeSave || item;
 
-        if (isEqual(item, this.current()) || beforeSave === false || !this._suspendSave)
+        if (this._rejectSave(item, beforeSave))
             return this;
 
         if (this._position < this._history.length)
