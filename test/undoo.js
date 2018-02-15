@@ -127,6 +127,8 @@ describe('Undoo', function () {
     it('maxLength set to 5 should be return foo', function (done) {
         const myUndo = new Undoo({
             maxLength: 5
+        }).onMaxLength(()=>{
+            console.log('exceeded');
         });
 
         myUndo.save('hello');
@@ -136,6 +138,8 @@ describe('Undoo', function () {
         myUndo.save('bau');
         myUndo.save('foo');
         console.log(myUndo);
+        console.log(myUndo.current());
+        console.log(myUndo.history());
         be.err.equal('foo', myUndo.current());
         be.err(done).equal([ 'world', 'ciao', 'miao', 'bau', 'foo' ], myUndo._history);
     });

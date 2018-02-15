@@ -34,6 +34,14 @@ class Undoo {
             _onBeforeSave: {
                 writable: true,
                 value: ()=>{}
+            },
+            _onMaxLength: {
+                writable: true,
+                value: ()=>{}
+            },
+            _isExceeded: {
+                writable: true,
+                value: false
             }
         });
 
@@ -52,6 +60,7 @@ class Undoo {
     _initiliaze() {
         this._initialState = undefined;
         this._history = [];
+        this._isExceeded = false;
         this._position = 0;
     }
 
@@ -60,8 +69,15 @@ class Undoo {
      * @private
      */
     _checkMaxLength() {
-        if (this._history.length > this._opts.maxLength)
+        if (this._history.length > this._opts.maxLength) {
             this._history = this._history.slice(1, this._history.length);
+            if (!this._isExceeded) {
+                this._onMaxLength.call(null, this.current(), this.history());
+                this._isExceeded = true;
+            }
+        } else {
+            this._isExceeded = false;
+        }
     }
 
     /**
@@ -215,6 +231,14 @@ class Undoo {
     }
 
     /**
+     * Get initial state history
+     * @returns {*}
+     */
+    initialState() {
+        return this._initialState;
+    }
+
+    /**
      * onUpdate callback
      * @callback Undoo~updateCallback
      * @param item {*} current history item
@@ -230,6 +254,24 @@ class Undoo {
     onUpdate(callback) {
         Undoo.callbackError(callback);
         this._onUpdate = callback;
+        return this;
+    }
+
+    /**
+     * onMaxLength callback
+     * @callback Undoo~maxLengthCallback
+     * @param item {*} current history item
+     * @param history {Array} history array
+     */
+
+    /**
+     * Triggered when maxLength is exceeded
+     * @param callback {Undoo~maxLengthCallback} callback function
+     * @returns {Undoo}
+     */
+    onMaxLength(callback) {
+        Undoo.callbackError(callback);
+        this._onMaxLength = callback;
         return this;
     }
 

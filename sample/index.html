@@ -47,6 +47,7 @@
 
     function appendLog(msg) {
         log.value += msg + "\n-----------------------\n";
+        log.scrollTop = log.scrollHeight;
     }
 
     const myHistory = new Undoo({
@@ -58,8 +59,9 @@
         toggle(btnUndo, myHistory.canUndo());
     }).onBeforeSave((item)=>{
         appendLog('beforeSave:' + item);
+    }).onMaxLength(()=>{
+        appendLog('maxLength');
     });
-
     appendLog('Save initial state');
     myHistory.save();
 

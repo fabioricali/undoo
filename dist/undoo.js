@@ -132,6 +132,14 @@ var Undoo = function () {
             _onBeforeSave: {
                 writable: true,
                 value: function value() {}
+            },
+            _onMaxLength: {
+                writable: true,
+                value: function value() {}
+            },
+            _isExceeded: {
+                writable: true,
+                value: false
             }
         });
 
@@ -154,6 +162,7 @@ var Undoo = function () {
         value: function _initiliaze() {
             this._initialState = undefined;
             this._history = [];
+            this._isExceeded = false;
             this._position = 0;
         }
 
@@ -165,7 +174,15 @@ var Undoo = function () {
     }, {
         key: '_checkMaxLength',
         value: function _checkMaxLength() {
-            if (this._history.length > this._opts.maxLength) this._history = this._history.slice(1, this._history.length);
+            if (this._history.length > this._opts.maxLength) {
+                this._history = this._history.slice(1, this._history.length);
+                if (!this._isExceeded) {
+                    this._onMaxLength.call(null, this.current(), this.history());
+                    this._isExceeded = true;
+                }
+            } else {
+                this._isExceeded = false;
+            }
         }
 
         /**
@@ -359,6 +376,27 @@ var Undoo = function () {
         value: function onUpdate(callback) {
             Undoo.callbackError(callback);
             this._onUpdate = callback;
+            return this;
+        }
+
+        /**
+         * onMaxLength callback
+         * @callback Undoo~maxLengthCallback
+         * @param item {*} current history item
+         * @param history {Array} history array
+         */
+
+        /**
+         * Triggered when maxLength is exceeded
+         * @param callback {Undoo~maxLengthCallback} callback function
+         * @returns {Undoo}
+         */
+
+    }, {
+        key: 'onMaxLength',
+        value: function onMaxLength(callback) {
+            Undoo.callbackError(callback);
+            this._onMaxLength = callback;
             return this;
         }
 
