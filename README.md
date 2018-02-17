@@ -61,6 +61,10 @@ myHistory.save();
 
 ```
 
+## Demo
+
+<a href="sample">Try now</a>
+
 ## API
 
 <a name="Undoo"></a>
@@ -316,7 +320,13 @@ Triggered before save
 
 **Example**  
 ```js
-// If callback returns `false` the save command will not be executedmyHistory.onBeforeSave(()=>false)// You can overwrite item before savemyHistory.onBeforeSave((item)=>{     return item.toUpperCase();})
+// If callback returns `false` the save command will not be executed
+myHistory.onBeforeSave(()=>false)
+
+// You can overwrite item before save
+myHistory.onBeforeSave((item)=>{
+     return item.toUpperCase();
+})
 ```
 <a name="Undoo..undoCallback"></a>
 
