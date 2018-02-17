@@ -63,7 +63,7 @@ myHistory.save();
 
 ## Demo
 
-<a href="sample">Try now</a>
+<a href="https://fabioricali.github.io/undoo/sample/">Try now</a>
 
 ## API
 
